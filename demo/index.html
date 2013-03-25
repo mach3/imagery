@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo</title>
+	<style>
+		img {
+			vertical-align: top;
+		}
+		.test-block {
+			display: inline-block;
+			*display: inline;
+			*zoom: 1;
+			background: url(./button.png) left top no-repeat;
+			width: 64px;
+			height: 64px;
+		}
+	</style>
+</head>
+<body>
+
+	<script src="../components/jquery/jquery.min.js"></script>
+	<script src="../src/imagery.js"></script>
+
+	<h1>Imagery Demo</h1>
+	<div class="demo">
+
+		<div class="item">
+			<h2>Alpha</h2>
+			<img src="button.png" id="demo-alpha-01" alt="">
+			<span class="test-block" id="demo-alpha-02"></span>
+
+			<script>
+				$("#demo-alpha-01").imagery("alpha");
+				$("#demo-alpha-02").imagery("alpha");
+			</script>
+		</div>
+
+
+		<div class="item">
+			<h2>SwapImage</h2>
+			<img src="button.png" id="demo-swapimage-01" alt="">
+			<span class="test-block" id="demo-swapimage-02"></span>
+
+			<script>
+				$("#demo-swapimage-01").imagery("swapImage", "button-hover.png"); 
+				$("#demo-swapimage-02").imagery("swapImage", "button-hover.png");
+			</script>
+		</div>
+
+
+		<div class="item">
+			<h2>SwapImage for Alpha</h2>
+			<img src="button.png" id="demo-swapimage-alpha-01" alt="">
+			<span class="test-block" id="demo-swapimage-alpha-02"></span>
+
+			<script>
+				$("#demo-swapimage-alpha-01").imagery("alpha").imagery("swapImage", "button-hover.png");
+				$("#demo-swapimage-alpha-02").imagery("alpha").imagery("swapImage", "button-hover.png");
+			</script>
+		</div>
+
+
+		<div class="item">
+			<h2>SwapButton</h2>
+			<img src="button.png" id="demo-swapbutton-01" alt="">
+			<span class="test-block" id="demo-swapbutton-02"></span>
+
+			<script>
+				$("#demo-swapbutton-01").imagery("alpha, swapButton");
+				$("#demo-swapbutton-02").imagery("alpha, swapButton");
+			</script>
+		</div>
+
+
+		<div class="item">
+			<h2>BlendButton</h2>
+			<img src="button.png" id="demo-blendbutton-01" alt="">
+			<span class="test-block" id="demo-blendbutton-02"></span>
+
+			<script>
+				$("#demo-blendbutton-01").imagery("alpha, blendButton");
+				$("#demo-blendbutton-02").imagery("alpha, blendButton");
+			</script>
+		</div>
+
+
+		<div class="item">
+			<h2>Toggle Buttons (SwapButton)</h2>
+			<img src="button.png" class="demo-toggle-swapbutton" alt="">
+			<img src="button.png" class="demo-toggle-swapbutton" alt="">
+			<img src="button.png" class="demo-toggle-swapbutton" alt="">
+
+			<script>
+				(function(){
+					var buttons = $(".demo-toggle-swapbutton");
+
+					buttons.imagery("alpha, swapButton")
+					.on("click", function(){
+						buttons.imagery("deactivate");
+						$(this).imagery("activate");
+					});
+				}());
+			</script>
+		</div>
+
+		<div class="item">
+			<h2>Toggle Buttons (BlendButton)</h2>
+			<img src="button.png" class="demo-toggle-blendbutton" alt="">
+			<img src="button.png" class="demo-toggle-blendbutton" alt="">
+			<img src="button.png" class="demo-toggle-blendbutton" alt="">
+
+			<script>
+				(function(){
+					var buttons = $(".demo-toggle-blendbutton");
+
+					buttons.imagery("alpha, blendButton")
+					.on("click", function(){
+						buttons.imagery("deactivate");
+						$(this).imagery("activate");
+					});
+				}());
+			</script>
+		</div>
+		
+	</div>
+
+</body>
+</html>
