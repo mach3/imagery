@@ -435,10 +435,14 @@
 		 * @return jQueryObject
 		 */
 		imagery : function(method /* [, args] */){
-			var self, args, methods;
+			var self, args, i, methods;
 
 			self = this;
-			args = $.extend([], arguments);
+			i = arguments.length;
+			args = [];
+			while(i--){
+				args.push(arguments[arguments.length - i - 1]);
+			}
 			methods = args.shift();
 
 			$.each(methods.split(","), function(index, method){
