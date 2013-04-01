@@ -3,7 +3,7 @@
  * -------
  * Utility for images and buttons
  * 
- * @version 0.8.0
+ * @version 0.8.1
  * @author mach3
  * @url http://github.com/mach3/imagery
  *
