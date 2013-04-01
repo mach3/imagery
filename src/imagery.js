@@ -81,10 +81,12 @@
 		 * @return Imagery
 		 */
 		my.run = function(method, node, args){
+			var _args;
+			
 			if(this.hasOwnProperty(method)){
-				args = args || [];
-				args.unshift(node);
-				this[method].apply(this, args);
+				_args = $.extend([], args);
+				_args.unshift(node);
+				this[method].apply(this, _args);
 			}
 
 			return this;
