@@ -3,10 +3,10 @@ module.exports = function(grunt){
 
 	var info, options;
 
-	info = grunt.file.readJSON("./component.json");
+	info = grunt.file.readJSON("./bower.json");
 	options = {
 		splitBanners : true,
-		banner : grunt.file.read("./src/banner.js").replace("{{version}}", info.version)
+		banner : grunt.template.process(grunt.file.read("./src/banner.js"), {data: info})
 	};
 
 	grunt.loadNpmTasks("grunt-contrib-concat");
