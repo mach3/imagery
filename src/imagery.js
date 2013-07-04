@@ -24,7 +24,7 @@
 
 			// Preload
 			preloadHover : true,
-			preloadActive : true
+			preloadActive : false 
 		};
 
 		my.dataKey = {
@@ -38,7 +38,7 @@
 
 		my.tmpl = {
 			filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='{{method}}', src='{{path}}')"
-				+ " alpha(opacity={{opacity}})"
+				// + " alpha(opacity={{opacity}})"
 		};
 
 		my.msie = false;
@@ -96,15 +96,13 @@
 		 * Set filter(AlphaImageLoader) to the node
 		 * 
 		 * @param HTMLElement node
-		 * @param Integer opacity 0-100
 		 * @return Imagery
 		 */
-		my.alpha = function(node, opacity){
+		my.alpha = function(node){
 			var $node, info, extra;
 
 			$node = $(node);
 			info = this._getNodeInfo(node);
-			opacity = $.isNumeric(opacity) ? opacity.toString() : 100;
 
 			if(! this.msie || this.msieVersion >= 9 || ! info.png){
 				return this;
@@ -113,8 +111,7 @@
 				$node.css({
 					filter : this._render(this.tmpl.filter, {
 						path : info.src,
-						method : "scale",
-						opacity : opacity
+						method : "scale"
 					}),
 					width : $node.width(),
 					height : $node.height()
@@ -125,8 +122,7 @@
 					backgroundImage : "url(" + this.option.blankGif + ")",
 					filter : this._render(this.tmpl.filter, {
 						path : info.src,
-						method : "crop",
-						opacity : opacity
+						method : "crop"
 					})
 				});
 			}
@@ -243,31 +239,44 @@
 		 * @return jQueryObject
 		 */
 		my._createAboveNode = function($node, src){
-			var $above = $("<img>")
-			.attr({
-				src : src
-			})
-			.css({
-				position : "absolute",
-				opacity : 0,
-				width : $node.width(),
-				heigth : $node.height(),
-				zIndex : $node.css("z-index"),
-				left : $node.css("left"),
-				top : $node.css("top"),
-				right : $node.css("right"),
-				bottom : $node.css("bottom")
+			var $img, $above, styles;
+
+			$img = $("<img>", {src: src}).css({
+				width: "100%",
+				height: "100%"
+			});
+			$above = $("<span>");
+			styles = [
+				"z-index",
+				"left",
+				"top",
+				"right",
+				"bottom",
+				"margin-left",
+				"margin-top",
+				"margin-bottom",
+				"margin-right"
+			];
+
+			$.each(styles, function(i, name){
+				$above.css(name, $node.css(name));
+			});
+			$above.css({
+				position: "absolute",
+				opacity: 0,
+				width: $node.width(),
+				height: $node.height()
 			})
 			.data(this.dataKey.base, $node)
+			.append($img)
 			.insertBefore($node);
 
 			if($node.data(this.dataKey.alpha)){
-				this.alpha($above.get(0), 0);
+				this.alpha($img.get(0));
 			}
 
 			$node.data(this.dataKey.blend, true)
 			.data(this.dataKey.above, $above);
-
 			return $above;
 		}
 
@@ -371,6 +380,8 @@
 
 			if(info.type === "img"){
 				info.src= $node.prop("src");
+			} else if(!! $node.data(this.dataKey.base)){
+
 			} else {
 				m = $node.css("background-image").match(/url\("?(.+?)"?\)/);
 				info.src = m[1] || null;
